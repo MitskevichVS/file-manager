@@ -1,27 +1,29 @@
 import { readdir } from 'node:fs/promises';
 import { user } from '../helpers/user.mjs';
+import { messageService } from '../helpers/messageService.mjs';
 
 export const handleCdCommand = (command) => {
     const path = command.replace('cd ', '');
 
-    console.log('Starting directory: ' + process.cwd());
+    messageService.message('Starting directory: ' + process.cwd());
     try {
         process.chdir(path);
-        console.log('New directory: ' + process.cwd());
+        messageService.message('New directory: ' + process.cwd());
     }
     catch (err) {
-        console.log('cd err: ' + err);
+        messageService.error('cd err: ' + err);
     }
 };
 
 export const handleUpCommand = () => {
-    console.log('Starting directory: ' + process.cwd());
+    messageService.message('Starting directory: ' + process.cwd());
+
     try {
         process.chdir('..');
-        console.log('New directory: ' + process.cwd());
+        messageService.message('New directory: ' + process.cwd());
     }
     catch (err) {
-        console.log('up err: ' + err);
+        messageService.error('up err: ' + err);
     }
 };
 
@@ -49,15 +51,15 @@ export const handleLsCommand = async () => {
         console.table(tableData);
     }
     catch (err) {
-        console.log('ls err: ' + err);
+        messageService.error('ls err: ' + err);
     }
 };
 
 export const handleExitCommand = () => {
-    console.log(`\nThank you for using File Manager, ${user.getUserName()}, goodbye!`);
+    messageService.message(`\nThank you for using File Manager, ${user.getUserName()}, goodbye!`);
     process.exit();
 }
 
 export const handleDefaultCommand = () => {
-    console.log('Operation failed');
+    messageService.message('Operation failed');
 };
