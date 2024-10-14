@@ -1,5 +1,6 @@
 import { handleLsCommand, handleCdCommand, handleUpCommand, handleDefaultCommand, handleExitCommand } from '../handlers/commandsHandlers.mjs';
 import { readFile, createFile, deleteFile, renameFile, copyFile, moveFile } from '../handlers/fileHandlers.mjs';
+import { calculateHash } from '../handlers/hashHandlers.mjs';
 import { getArchitecture, getCpus, getEol, getHomeDir, getSystemUserName } from '../handlers/osHandlers.mjs';
 
 export const commandsMap = {
@@ -17,6 +18,7 @@ export const commandsMap = {
     '--homedir': getHomeDir,
     '--username': getSystemUserName,
     '--architecture': getArchitecture,
+    hash: calculateHash,
     '.exit': handleExitCommand,
     default: handleDefaultCommand,
 };
