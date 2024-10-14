@@ -5,7 +5,7 @@ import { handleError } from "./errorHandler.mjs";
 import { messageService } from '../helpers/messageService.mjs';
 
 export const readFile = async (src = "") => {
-    const path = src.split(" ")[1];
+    const [_, path] = src.split(" ");
 
     if (!path) {
         handleError();
@@ -25,7 +25,7 @@ export const readFile = async (src = "") => {
 };
 
 export const createFile = async (command) => {
-    const fileName = command.split(" ")[1];
+    const [_, fileName] = command.split(" ");
     const currentDirectory = process.cwd();
     const src = join(currentDirectory, fileName);
 
@@ -38,7 +38,7 @@ export const createFile = async (command) => {
 };
 
 export const deleteFile = async (command, silent) => {
-    const path = command.split(" ")[1];
+    const [_, path] = command.split(" ");
 
     if (!path) {
         handleError();

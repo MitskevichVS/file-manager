@@ -1,11 +1,17 @@
 import { readdir } from 'node:fs/promises';
 import { user } from '../helpers/user.mjs';
 import { messageService } from '../helpers/messageService.mjs';
+import { initialDirService } from '../helpers/initialDirService.mjs';
 
 export const handleCdCommand = (command) => {
-    const path = command.replace('cd ', '');
+    const [_, path] = command.split(" ");
 
     messageService.message('Starting directory: ' + process.cwd());
+
+    if (!path || !path.includes(initialDirService.getInitialDir())) {
+        return;
+    }
+
     try {
         process.chdir(path);
         messageService.message('New directory: ' + process.cwd());
@@ -17,6 +23,10 @@ export const handleCdCommand = (command) => {
 
 export const handleUpCommand = () => {
     messageService.message('Starting directory: ' + process.cwd());
+
+    if (!process.cwd().includes(initialDirService.getInitialDir()) || process.cwd() === initialDirService.getInitialDir()) {
+        return;
+    }
 
     try {
         process.chdir('..');
@@ -38,7 +48,7 @@ export const handleLsCommand = async () => {
         const tableData = directoryContent
             .map((item) => ({
                 Name: item.name,
-                Type: item.isDirectory() 
+                Type: item.isDirectory()
                     ? 'directory'
                     : item.isFile()
                         ? 'file'
